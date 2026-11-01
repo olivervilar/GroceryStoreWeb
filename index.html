@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nest Mart & Grocery - Catálogo y Gestión</title>
-  <!-- Google Fonts: Quicksand & Lato (Estilo exacto de la plantilla Nest) -->
+  <!-- Google Fonts: Quicksand & Lato (Estilo Nest) -->
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -338,7 +338,6 @@
       color: var(--text);
     }
 
-    /* Colores Pastel de Categorías */
     .bg-pastel-1 { background-color: #F2FCE4; }
     .bg-pastel-2 { background-color: #FFFCEB; }
     .bg-pastel-3 { background-color: #ECFFEC; }
@@ -450,7 +449,6 @@
       transform: translateY(-3px);
     }
 
-    /* Etiqueta esquina superior izquierda estilo Nest */
     .product-badge {
       position: absolute;
       top: 0;
@@ -687,7 +685,7 @@
       width: 100%;
       padding: 10px 12px;
       border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
+      border-radius: 5px;
       font-family: inherit;
       font-size: 14px;
       outline: none;
@@ -697,7 +695,6 @@
       border-color: var(--primary);
     }
 
-    /* Tablas Responsivas */
     .table-responsive {
       width: 100%;
       overflow-x: auto;
@@ -744,7 +741,6 @@
       font-weight: 700;
     }
 
-    /* POS / Carga Rápida de Ventas */
     .pos-layout {
       display: grid;
       grid-template-columns: 1fr;
@@ -777,7 +773,6 @@
       cursor: not-allowed;
     }
 
-    /* Alertas de Reposición Inteligente */
     .replenish-status {
       padding: 4px 10px;
       border-radius: 20px;
@@ -790,9 +785,6 @@
     .status-soon { background: #FFF3EB; color: var(--warning); }
     .status-optimal { background: var(--primary-light); color: var(--primary); }
 
-    /* ==========================================
-       MODAL LOGIN & TOAST
-       ========================================== */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -828,9 +820,6 @@
       transition: 0.3s;
     }
 
-    /* ==========================================
-       MEDIA QUERIES (Tablet & Desktop)
-       ========================================== */
     @media (min-width: 768px) {
       .top-bar { display: flex; }
       .search-bar { order: 2; width: 42%; }
@@ -870,7 +859,7 @@
 
     <div class="header-actions">
       <span id="connBadge" class="connection-badge badge-demo">
-        <i class="fa-solid fa-circle-dot"></i> Modo Demo Local
+        <i class="fa-solid fa-circle-dot"></i> Conectando...
       </span>
 
       <button id="btnToggleAdmin" class="action-btn" onclick="handleAdminAccess()">
@@ -888,7 +877,6 @@
        VISTA PÚBLICA (CATÁLOGO CLIENTES)
        ========================================== -->
   <main id="publicView" class="container">
-    <!-- Hero Banner -->
     <section class="hero-banner">
       <div class="hero-content">
         <h2>Vegetales Frescos<br>Grandes Descuentos</h2>
@@ -901,13 +889,11 @@
       <i class="fa-solid fa-carrot hero-decoration"></i>
     </section>
 
-    <!-- Categorías Destacadas -->
     <div class="section-header">
       <h2 class="section-title">Categorías Destacadas</h2>
     </div>
     <div id="categoriesContainer" class="categories-carousel"></div>
 
-    <!-- 3 Banners Promocionales -->
     <section class="promo-banners">
       <div class="promo-card" style="background-color: #F0E8D5;">
         <h3>Siempre Fresco y Limpio con Nuestros Productos</h3>
@@ -926,7 +912,6 @@
       </div>
     </section>
 
-    <!-- Grilla de Productos Populares -->
     <div class="section-header">
       <h2 class="section-title">Productos Populares</h2>
       <div id="filterTabsContainer" class="filter-tabs"></div>
@@ -1019,11 +1004,14 @@
               <input type="text" id="prodIcon" placeholder="Ej: 🍎 o https://...">
             </div>
           </div>
-          <div style="margin-top:15px; display:flex; gap:10px;">
+          <div style="margin-top:15px; display:flex; flex-wrap:wrap; gap:10px;">
             <button type="submit" class="action-btn primary">
               <i class="fa-solid fa-floppy-disk"></i> Guardar Producto
             </button>
             <button type="button" class="action-btn" onclick="resetProductForm()">Limpiar</button>
+            <button type="button" class="action-btn" onclick="seedInitialProductsToSupabase()" title="Carga productos de muestra si tu base de datos está vacía">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Cargar Productos de Muestra
+            </button>
           </div>
         </form>
       </div>
@@ -1123,18 +1111,18 @@
         <button class="action-btn" style="padding:4px 8px;" onclick="closeLoginModal()">✕</button>
       </div>
       <p style="font-size:13px; color:var(--text); margin-bottom:18px;">
-        Inicia sesión con tus credenciales configuradas en <strong>Supabase Auth</strong>. Si estás en Modo Demo, puedes ingresar con cualquier correo para probar el panel.
+        Inicia sesión con el usuario administrador creado en el panel de <strong>Supabase Auth</strong>.
       </p>
       <form onsubmit="loginAdmin(event)">
         <div class="form-group" style="margin-bottom:12px;">
           <label>Correo Electrónico</label>
-          <input type="email" id="loginEmail" required value="admin@nestmart.com">
+          <input type="email" id="loginEmail" required placeholder="tu-correo@ejemplo.com">
         </div>
         <div class="form-group" style="margin-bottom:18px;">
           <label>Contraseña</label>
-          <input type="password" id="loginPassword" required value="admin1234">
+          <input type="password" id="loginPassword" required placeholder="••••••••">
         </div>
-        <button type="submit" class="action-btn primary" style="width:100%; justify-content:center; padding:12px;">
+        <button type="submit" id="btnSubmitLogin" class="action-btn primary" style="width:100%; justify-content:center; padding:12px;">
           Iniciar Sesión
         </button>
       </form>
@@ -1149,12 +1137,25 @@
        ========================================== -->
   <script>
     /**
-     * 1. CONFIGURACIÓN DE SUPABASE
-     * Reemplaza SUPABASE_URL y SUPABASE_ANON_KEY con las credenciales de tu proyecto.
-     * Si se dejan vacías, la aplicación activa automáticamente el Modo Demo Persistente (LocalStorage).
+     * 1. CREDENCIALES DE SUPABASE INTEGRADAS Y SANITIZADAS
+     * Nota importante: El cliente JS de Supabase requiere la URL raíz del proyecto
+     * (sin "/rest/v1/"), ya que el SDK agrega automáticamente "/auth/v1" o "/rest/v1".
      */
-    const SUPABASE_URL = "https://fddpkcbzpcxylyrpelug.supabase.co/rest/v1/"; 
+    const RAW_SUPABASE_URL = "https://fddpkcbzpcxylyrpelug.supabase.co/rest/v1/";
     const SUPABASE_ANON_KEY = "sb_publishable_NHSXHEUGngAMIu9UvadkGw_GinOC91J";
+
+    // Función que limpia cualquier sub-ruta accidental como "/rest/v1/" para evitar "Invalid path specified in request URL"
+    function cleanSupabaseUrl(rawUrl) {
+      if (!rawUrl) return "";
+      try {
+        const parsed = new URL(rawUrl.trim());
+        return parsed.origin; // Devuelve exactamente "https://fddpkcbzpcxylyrpelug.supabase.co"
+      } catch (e) {
+        return rawUrl.replace(/\/rest\/v1\/?$/i, "").replace(/\/+$/, "");
+      }
+    }
+
+    const SUPABASE_URL = cleanSupabaseUrl(RAW_SUPABASE_URL);
 
     let supabaseClient = null;
     let isSupabaseConnected = false;
@@ -1162,7 +1163,7 @@
     let selectedCategory = "Todos";
     let posCart = [];
 
-    // Datos iniciales inspirados en la imagen de Nest Mart & Grocery
+    // Catálogo de muestra (para poblar con 1 clic o usar en modo fallback)
     const INITIAL_PRODUCTS = [
       { id: "p1", name: "Seeds of Change Arroz Rojo Orgánico", category: "Almacén", price: 28.85, discount_percent: 13, stock: 18, icon: "🌾" },
       { id: "p2", name: "Albóndigas de Pollo Estilo Natural", category: "Carnes", price: 52.00, discount_percent: 25, stock: 6, icon: "🍖" },
@@ -1174,17 +1175,13 @@
       { id: "p8", name: "Mantequilla de Pistacho Artesanal", category: "Almacén", price: 42.00, discount_percent: 12, stock: 4, icon: "🫙" }
     ];
 
-    // Historial semilla de los últimos 14 días para que el Algoritmo de Reposición muestre métricas reales de inmediato
     const now = new Date();
     const daysAgo = (d) => new Date(now.getTime() - d * 86400000).toISOString();
     const INITIAL_SALES = [
       { id: "s1", product_id: "p1", quantity: 14, total_price: 350.0, sold_at: daysAgo(2) },
       { id: "s2", product_id: "p2", quantity: 19, total_price: 741.0, sold_at: daysAgo(3) },
       { id: "s3", product_id: "p3", quantity: 10, total_price: 449.4, sold_at: daysAgo(1) },
-      { id: "s4", product_id: "p4", quantity: 22, total_price: 472.2, sold_at: daysAgo(4) },
-      { id: "s5", product_id: "p5", quantity: 16, total_price: 296.4, sold_at: daysAgo(5) },
-      { id: "s6", product_id: "p6", quantity: 12, total_price: 346.8, sold_at: daysAgo(0.2) },
-      { id: "s7", product_id: "p8", quantity: 15, total_price: 554.4, sold_at: daysAgo(2) }
+      { id: "s4", product_id: "p4", quantity: 22, total_price: 472.2, sold_at: daysAgo(4) }
     ];
 
     let productsState = [];
@@ -1200,8 +1197,8 @@
           isSupabaseConnected = true;
           updateConnectionBadge(true);
 
-          const { data: sessionData } = await supabaseClient.auth.getSession();
-          if (sessionData?.session?.user) {
+          const { data: sessionData, error: sessionErr } = await supabaseClient.auth.getSession();
+          if (!sessionErr && sessionData?.session?.user) {
             setAuthenticatedUser(sessionData.session.user);
           }
 
@@ -1215,7 +1212,10 @@
         } catch (err) {
           console.warn("Error conectando a Supabase, activando modo local:", err);
           isSupabaseConnected = false;
+          updateConnectionBadge(false);
         }
+      } else {
+        updateConnectionBadge(false);
       }
 
       await loadAllData();
@@ -1225,7 +1225,7 @@
       const badge = document.getElementById('connBadge');
       if (online) {
         badge.className = 'connection-badge badge-online';
-        badge.innerHTML = '<i class="fa-solid fa-bolt"></i> Supabase Realtime';
+        badge.innerHTML = '<i class="fa-solid fa-bolt"></i> Supabase Conectado';
       } else {
         badge.className = 'connection-badge badge-demo';
         badge.innerHTML = '<i class="fa-solid fa-database"></i> Modo Demo Local';
@@ -1234,12 +1234,19 @@
 
     async function loadAllData() {
       if (isSupabaseConnected) {
-        const [{ data: prods }, { data: sales }] = await Promise.all([
-          supabaseClient.from('products').select('*').order('name'),
-          supabaseClient.from('sales').select('*').order('sold_at', { ascending: false })
-        ]);
-        productsState = prods || [];
-        salesState = sales || [];
+        const prodsRes = await supabaseClient.from('products').select('*').order('name');
+        if (prodsRes.error) {
+          console.warn("Aviso al leer 'products' en Supabase:", prodsRes.error.message);
+        }
+        productsState = prodsRes.data || [];
+
+        // Solo consultamos 'sales' si hay sesión de administrador activa (por políticas RLS)
+        if (currentUser) {
+          const salesRes = await supabaseClient.from('sales').select('*').order('sold_at', { ascending: false });
+          salesState = salesRes.data || [];
+        } else {
+          salesState = [];
+        }
       } else {
         const storedProds = localStorage.getItem('nest_products');
         const storedSales = localStorage.getItem('nest_sales');
@@ -1255,6 +1262,22 @@
         localStorage.setItem('nest_products', JSON.stringify(productsState));
         localStorage.setItem('nest_sales', JSON.stringify(salesState));
       }
+    }
+
+    // Permite poblar la tabla 'products' de Supabase con un clic si recién creaste las tablas
+    async function seedInitialProductsToSupabase() {
+      if (!isSupabaseConnected) {
+        showToast("Ya tienes los productos de muestra en Modo Local");
+        return;
+      }
+      const cleanSeed = INITIAL_PRODUCTS.map(({ id, ...rest }) => rest);
+      const { error } = await supabaseClient.from('products').insert(cleanSeed);
+      if (error) {
+        showToast("Error al insertar muestra: " + error.message);
+        return;
+      }
+      await loadAllData();
+      showToast("¡Productos de muestra cargados en Supabase!");
     }
 
     function renderAll() {
@@ -1331,7 +1354,11 @@
       });
 
       if (filtered.length === 0) {
-        grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text);">No se encontraron productos con ese criterio.</p>`;
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text);">
+            <p style="margin-bottom:10px;">No hay productos cargados en esta categoría todavía.</p>
+            <p style="font-size:13px;">Inicia sesión como Administrador para crear productos o cargar el catálogo de muestra con 1 clic.</p>
+          </div>`;
         return;
       }
 
@@ -1407,22 +1434,33 @@
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
+      const submitBtn = document.getElementById('btnSubmitLogin');
 
-      if (isSupabaseConnected) {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) {
-          showToast("Error de autenticación: " + error.message);
-          return;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Verificando...";
+
+      try {
+        if (isSupabaseConnected) {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) {
+            showToast("Error de autenticación: " + error.message);
+            return;
+          }
+          setAuthenticatedUser(data.user);
+        } else {
+          setAuthenticatedUser({ email });
         }
-        setAuthenticatedUser(data.user);
-      } else {
-        // Modo Demo para evaluación de portafolio
-        setAuthenticatedUser({ email });
-      }
 
-      closeLoginModal();
-      switchView('admin');
-      showToast("Sesión de administrador iniciada");
+        closeLoginModal();
+        await loadAllData();
+        switchView('admin');
+        showToast("¡Bienvenido al Panel de Administración!");
+      } catch (err) {
+        showToast("Error inesperado al iniciar sesión: " + err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Iniciar Sesión";
+      }
     }
 
     async function logoutAdmin() {
@@ -1477,10 +1515,15 @@
       };
 
       if (isSupabaseConnected) {
+        let res;
         if (id) {
-          await supabaseClient.from('products').update(payload).eq('id', id);
+          res = await supabaseClient.from('products').update(payload).eq('id', id);
         } else {
-          await supabaseClient.from('products').insert([payload]);
+          res = await supabaseClient.from('products').insert([payload]);
+        }
+        if (res.error) {
+          showToast("Error guardando producto: " + res.error.message);
+          return;
         }
       } else {
         if (id) {
@@ -1498,7 +1541,7 @@
     }
 
     function editProduct(id) {
-      const p = productsState.find(item => item.id === id);
+      const p = productsState.find(item => String(item.id) === String(id));
       if (!p) return;
       document.getElementById('prodId').value = p.id;
       document.getElementById('prodName').value = p.name;
@@ -1518,12 +1561,16 @@
     }
 
     async function adjustStock(id, delta) {
-      const p = productsState.find(item => item.id === id);
+      const p = productsState.find(item => String(item.id) === String(id));
       if (!p) return;
       const newStock = Math.max(0, Number(p.stock) + delta);
 
       if (isSupabaseConnected) {
-        await supabaseClient.from('products').update({ stock: newStock }).eq('id', id);
+        const { error } = await supabaseClient.from('products').update({ stock: newStock }).eq('id', id);
+        if (error) {
+          showToast("No se pudo actualizar stock: " + error.message);
+          return;
+        }
       } else {
         p.stock = newStock;
         saveLocalData();
@@ -1534,9 +1581,13 @@
     async function deleteProduct(id) {
       if (!confirm("¿Eliminar este producto del catálogo permanentemente?")) return;
       if (isSupabaseConnected) {
-        await supabaseClient.from('products').delete().eq('id', id);
+        const { error } = await supabaseClient.from('products').delete().eq('id', id);
+        if (error) {
+          showToast("Error al eliminar: " + error.message);
+          return;
+        }
       } else {
-        productsState = productsState.filter(p => p.id !== id);
+        productsState = productsState.filter(p => String(p.id) !== String(id));
         saveLocalData();
       }
       await loadAllData();
@@ -1545,6 +1596,11 @@
 
     function renderAdminInventory() {
       const tbody = document.getElementById('adminInventoryTable');
+      if (productsState.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text);">Tu inventario está vacío. Crea un producto arriba o haz clic en "Cargar Productos de Muestra".</td></tr>`;
+        return;
+      }
+
       tbody.innerHTML = productsState.map(p => {
         const finalPrice = getFinalPrice(p);
         return `
@@ -1593,10 +1649,10 @@
     }
 
     function addToPosCart(productId) {
-      const product = productsState.find(p => p.id === productId);
+      const product = productsState.find(p => String(p.id) === String(productId));
       if (!product || product.stock <= 0) return;
 
-      const existing = posCart.find(item => item.product_id === productId);
+      const existing = posCart.find(item => String(item.product_id) === String(productId));
       if (existing) {
         if (existing.quantity + 1 > product.stock) {
           showToast("No hay más stock disponible de este producto");
@@ -1615,7 +1671,7 @@
     }
 
     function removeFromPosCart(productId) {
-      posCart = posCart.filter(item => item.product_id !== productId);
+      posCart = posCart.filter(item => String(item.product_id) !== String(productId));
       renderPosCart();
     }
 
@@ -1659,7 +1715,8 @@
       const timestamp = new Date().toISOString();
 
       for (const item of posCart) {
-        const product = productsState.find(p => p.id === item.product_id);
+        const product = productsState.find(p => String(p.id) === String(item.product_id));
+        if (!product) continue;
         const newStock = Math.max(0, Number(product.stock) - item.quantity);
         const saleRecord = {
           product_id: item.product_id,
@@ -1685,8 +1742,6 @@
 
     /**
      * 7. ALGORITMO DE REPOSICIÓN INTELIGENTE
-     * Calcula velocidad de venta diaria/semanal en una ventana móvil de 14 días
-     * y recomienda compra aplicando un margen de seguridad del 20% (factor 1.2).
      */
     function calculateReplenishmentMetrics(targetDays = 7) {
       const WINDOW_DAYS = 14;
@@ -1695,7 +1750,7 @@
 
       return productsState.map(product => {
         const recentSales = salesState.filter(s => 
-          s.product_id === product.id && new Date(s.sold_at).getTime() >= cutoffTime
+          String(s.product_id) === String(product.id) && new Date(s.sold_at).getTime() >= cutoffTime
         );
 
         const totalUnitsSold = recentSales.reduce((acc, curr) => acc + Number(curr.quantity), 0);
@@ -1783,7 +1838,7 @@
       toast.textContent = msg;
       toast.classList.remove('hidden');
       clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => toast.classList.add('hidden'), 3200);
+      window._toastTimer = setTimeout(() => toast.classList.add('hidden'), 3500);
     }
 
     window.addEventListener('DOMContentLoaded', initApp);
